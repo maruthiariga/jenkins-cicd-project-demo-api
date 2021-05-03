@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="71cf44d9-5378-4596-a10e-5db44b6eed2f" >
+		<http:listener-connection host="0.0.0.0" port="8099" />
+	</http:listener-config>
+	<flow name="jenkins-cicd-project-demo-apiFlow" doc:id="1d76025e-4413-462b-8342-d4306405b8fc" >
+		<http:listener doc:name="Listener" doc:id="95fe9e3a-2a6f-463c-ae57-1832fdeba04a" config-ref="HTTP_Listener_config" path="/cicdDemo"/>
+		<ee:transform doc:name="Transform Message" doc:id="c831b004-2165-4be7-a430-6ef498c7f8b3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	response: "CI CD flow executed Successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="fb38f56f-6715-46dd-91f9-a2d4a144aa58" message="#### CI CD FLOW"/>
+	</flow>
+</mule>
